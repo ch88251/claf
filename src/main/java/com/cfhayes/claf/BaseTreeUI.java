@@ -1,0 +1,24 @@
+package com.cfhayes.claf;
+
+import java.awt.Graphics;
+
+import javax.swing.JComponent;
+import javax.swing.plaf.ComponentUI;
+import javax.swing.plaf.basic.BasicTreeUI;
+
+public class BaseTreeUI extends BasicTreeUI {
+
+    public static ComponentUI createUI(JComponent c) {
+        return new BaseTreeUI();
+    }
+
+    protected void paintVerticalLine(Graphics g, JComponent c, int x, int top, int bottom) {
+        drawDashedVerticalLine(g, x, top, bottom);
+    }
+
+    protected void paintHorizontalLine(Graphics g, JComponent c, int y, int left, int right) {
+        drawDashedHorizontalLine(g, y, left, right);
+    }
+}
+
+
