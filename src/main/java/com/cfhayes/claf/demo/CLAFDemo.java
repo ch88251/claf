@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 
 import com.cfhayes.claf.food.FoodLookAndFeel;
+import com.cfhayes.claf.medical.MedicalLookAndFeel;
 import com.cfhayes.claf.industrial.IndustrialLookAndFeel;
 
 /**
@@ -69,6 +70,9 @@ public class CLAFDemo extends JFrame {
         JMenuItem foodLaf = new JMenuItem("Food Theme");
         foodLaf.addActionListener(e -> switchLookAndFeel("Food"));
         
+        JMenuItem medicalLaf = new JMenuItem("Medical Theme");
+        medicalLaf.addActionListener(e -> switchLookAndFeel("Medical"));
+
         JMenuItem industrialLaf = new JMenuItem("Industrial Theme");
         industrialLaf.addActionListener(e -> switchLookAndFeel("Industrial"));
         
@@ -76,6 +80,7 @@ public class CLAFDemo extends JFrame {
         systemLaf.addActionListener(e -> switchLookAndFeel("System"));
         
         lafMenu.add(foodLaf);
+        lafMenu.add(medicalLaf);
         lafMenu.add(industrialLaf);
         lafMenu.addSeparator();
         lafMenu.add(systemLaf);
@@ -112,7 +117,7 @@ public class CLAFDemo extends JFrame {
         panel.setBorder(new TitledBorder("Look and Feel Selection"));
         
         JLabel label = new JLabel("Choose Theme:");
-        lafComboBox = new JComboBox<>(new String[]{"Food", "Industrial", "System Default"});
+        lafComboBox = new JComboBox<>(new String[]{"Food", "Medical", "Industrial", "System Default"});
         lafComboBox.setSelectedItem("Food");
         lafComboBox.addActionListener(e -> {
             String selected = (String) lafComboBox.getSelectedItem();
@@ -324,6 +329,9 @@ public class CLAFDemo extends JFrame {
                 case "Food":
                     UIManager.setLookAndFeel(new FoodLookAndFeel());
                     break;
+                case "Medical":
+                    UIManager.setLookAndFeel(new MedicalLookAndFeel());
+                    break;
                 case "Industrial":
                     UIManager.setLookAndFeel(new IndustrialLookAndFeel());
                     break;
@@ -357,17 +365,7 @@ public class CLAFDemo extends JFrame {
                 Custom Look and Feel Library
                 Version 2.0.0-SNAPSHOT
                 
-                Modernized from Java 1.4 to Java 17+
-                
-                Features:
-                • Food Look and Feel Theme
-                • Industrial Look and Feel Theme  
-                • Full Swing Component Support
-                • Modern Java Module System
-                • GitHub Actions CI/CD
-                
-                Created by: CF Hayes
-                Modernized: November 2025
+                Created by: Charles Hayes
                 """;
         
         JOptionPane.showMessageDialog(this, message, "About CLAF", JOptionPane.INFORMATION_MESSAGE);
@@ -387,20 +385,24 @@ public class CLAFDemo extends JFrame {
                 switch (theme) {
                     case "food":
                         UIManager.setLookAndFeel(new FoodLookAndFeel());
-                        showMessage("🍎 Food Theme", "Starting CLAF Demo with Food Theme");
+                        showMessage("Food Theme", "Starting CLAF Demo with Food Theme");
+                        break;
+                    case "medical":
+                        UIManager.setLookAndFeel(new MedicalLookAndFeel());
+                        showMessage("Medical Theme", "Starting CLAF Demo with Medical Theme");
                         break;
                     case "industrial":
                         UIManager.setLookAndFeel(new IndustrialLookAndFeel());
-                        showMessage("🏭 Industrial Theme", "Starting CLAF Demo with Industrial Theme");
+                        showMessage("Industrial Theme", "Starting CLAF Demo with Industrial Theme");
                         break;
                     case "system":
                         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-                        showMessage("🖥️ System Theme", "Starting CLAF Demo with System Default Theme");
+                        showMessage("System Theme", "Starting CLAF Demo with System Default Theme");
                         break;
                     case "interactive":
                     default:
                         UIManager.setLookAndFeel(new FoodLookAndFeel());
-                        showMessage("🎛️ Interactive Mode", "Starting CLAF Demo - Use the menu to switch themes!");
+                        showMessage("Interactive Mode", "Starting CLAF Demo - Use the menu to switch themes!");
                         break;
                 }
                 
