@@ -333,23 +333,18 @@ public class CLAFDemo extends JFrame {
         try {
             switch (lafName) {
                 case "Food":
-                    System.out.println("Switching to Look and Feel: " + lafName );
                     UIManager.setLookAndFeel(new FoodLookAndFeel());
                     break;
                 case "Medical":
-                    System.out.println("Switching to Look and Feel: " + lafName);
                     UIManager.setLookAndFeel(new MedicalLookAndFeel());
                     break;
                 case "Financial":
-                    System.out.println("Switching to Look and Feel: " + lafName);
                     UIManager.setLookAndFeel(new FinancialLookAndFeel());
                     break;
                 case "Industrial":
-                    System.out.println("Switching to Look and Feel: " + lafName);
                     UIManager.setLookAndFeel(new IndustrialLookAndFeel());
                     break;
                 case "System Default":
-                    System.out.println("Switching to Look and Feel: " + lafName);
                     UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
                     break;
             }
