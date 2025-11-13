@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 
 import com.cfhayes.claf.food.FoodLookAndFeel;
+import com.cfhayes.claf.financial.FinancialLookAndFeel;
 import com.cfhayes.claf.medical.MedicalLookAndFeel;
 import com.cfhayes.claf.industrial.IndustrialLookAndFeel;
 
@@ -69,7 +70,10 @@ public class CLAFDemo extends JFrame {
         
         JMenuItem foodLaf = new JMenuItem("Food Theme");
         foodLaf.addActionListener(e -> switchLookAndFeel("Food"));
-        
+
+        JMenuItem financialLaf = new JMenuItem("Financial Theme");
+        financialLaf.addActionListener(e -> switchLookAndFeel("Financial"));
+
         JMenuItem medicalLaf = new JMenuItem("Medical Theme");
         medicalLaf.addActionListener(e -> switchLookAndFeel("Medical"));
 
@@ -80,6 +84,7 @@ public class CLAFDemo extends JFrame {
         systemLaf.addActionListener(e -> switchLookAndFeel("System"));
         
         lafMenu.add(foodLaf);
+        lafMenu.add(financialLaf);
         lafMenu.add(medicalLaf);
         lafMenu.add(industrialLaf);
         lafMenu.addSeparator();
@@ -117,10 +122,11 @@ public class CLAFDemo extends JFrame {
         panel.setBorder(new TitledBorder("Look and Feel Selection"));
         
         JLabel label = new JLabel("Choose Theme:");
-        lafComboBox = new JComboBox<>(new String[]{"Food", "Medical", "Industrial", "System Default"});
+        lafComboBox = new JComboBox<>(new String[]{"Food", "Medical", "Financial","Industrial", "System Default"});
         lafComboBox.setSelectedItem("Food");
         lafComboBox.addActionListener(e -> {
             String selected = (String) lafComboBox.getSelectedItem();
+            System.out.println("Switching to Look and Feel: " + selected);
             switchLookAndFeel(selected);
         });
         
@@ -327,15 +333,23 @@ public class CLAFDemo extends JFrame {
         try {
             switch (lafName) {
                 case "Food":
+                    System.out.println("Switching to Look and Feel: " + lafName );
                     UIManager.setLookAndFeel(new FoodLookAndFeel());
                     break;
                 case "Medical":
+                    System.out.println("Switching to Look and Feel: " + lafName);
                     UIManager.setLookAndFeel(new MedicalLookAndFeel());
                     break;
+                case "Financial":
+                    System.out.println("Switching to Look and Feel: " + lafName);
+                    UIManager.setLookAndFeel(new FinancialLookAndFeel());
+                    break;
                 case "Industrial":
+                    System.out.println("Switching to Look and Feel: " + lafName);
                     UIManager.setLookAndFeel(new IndustrialLookAndFeel());
                     break;
                 case "System Default":
+                    System.out.println("Switching to Look and Feel: " + lafName);
                     UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
                     break;
             }
@@ -377,35 +391,7 @@ public class CLAFDemo extends JFrame {
         System.setProperty("swing.aatext", "true");
         
         SwingUtilities.invokeLater(() -> {
-            try {
-                // Parse command line arguments for theme selection
-                String theme = args.length > 0 ? args[0].toLowerCase() : "interactive";
-                
-                // Set initial Look and Feel based on argument
-                switch (theme) {
-                    case "food":
-                        UIManager.setLookAndFeel(new FoodLookAndFeel());
-                        showMessage("Food Theme", "Starting CLAF Demo with Food Theme");
-                        break;
-                    case "medical":
-                        UIManager.setLookAndFeel(new MedicalLookAndFeel());
-                        showMessage("Medical Theme", "Starting CLAF Demo with Medical Theme");
-                        break;
-                    case "industrial":
-                        UIManager.setLookAndFeel(new IndustrialLookAndFeel());
-                        showMessage("Industrial Theme", "Starting CLAF Demo with Industrial Theme");
-                        break;
-                    case "system":
-                        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-                        showMessage("System Theme", "Starting CLAF Demo with System Default Theme");
-                        break;
-                    case "interactive":
-                    default:
-                        UIManager.setLookAndFeel(new FoodLookAndFeel());
-                        showMessage("Interactive Mode", "Starting CLAF Demo - Use the menu to switch themes!");
-                        break;
-                }
-                
+            try {                
                 CLAFDemo demo = new CLAFDemo();
                 demo.setVisible(true);
                 
@@ -419,23 +405,4 @@ public class CLAFDemo extends JFrame {
         });
     }
     
-    private static void showMessage(String title, String message) {
-        // Show a brief startup message
-        Timer timer = new Timer(2000, e -> {
-            Window[] windows = Window.getWindows();
-            for (Window window : windows) {
-                if (window instanceof JDialog && window.isVisible()) {
-                    window.dispose();
-                }
-            }
-        });
-        timer.setRepeats(false);
-        
-        SwingUtilities.invokeLater(() -> {
-            JOptionPane optionPane = new JOptionPane(message, JOptionPane.INFORMATION_MESSAGE);
-            JDialog dialog = optionPane.createDialog(null, title);
-            timer.start();
-            dialog.setVisible(true);
-        });
-    }
 }
