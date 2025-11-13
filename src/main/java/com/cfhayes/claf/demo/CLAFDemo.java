@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.util.Scanner;
 
 import com.cfhayes.claf.food.FoodLookAndFeel;
 import com.cfhayes.claf.financial.FinancialLookAndFeel;
@@ -69,19 +70,10 @@ public class CLAFDemo extends JFrame {
         lafMenu.setMnemonic('L');
         
         JMenuItem foodLaf = new JMenuItem("Food Theme");
-        foodLaf.addActionListener(e -> switchLookAndFeel("Food"));
-
         JMenuItem financialLaf = new JMenuItem("Financial Theme");
-        financialLaf.addActionListener(e -> switchLookAndFeel("Financial"));
-
         JMenuItem medicalLaf = new JMenuItem("Medical Theme");
-        medicalLaf.addActionListener(e -> switchLookAndFeel("Medical"));
-
         JMenuItem industrialLaf = new JMenuItem("Industrial Theme");
-        industrialLaf.addActionListener(e -> switchLookAndFeel("Industrial"));
-        
         JMenuItem systemLaf = new JMenuItem("System Default");
-        systemLaf.addActionListener(e -> switchLookAndFeel("System"));
         
         lafMenu.add(foodLaf);
         lafMenu.add(financialLaf);
@@ -124,11 +116,6 @@ public class CLAFDemo extends JFrame {
         JLabel label = new JLabel("Choose Theme:");
         lafComboBox = new JComboBox<>(new String[]{"Food", "Medical", "Financial","Industrial", "System Default"});
         lafComboBox.setSelectedItem("Food");
-        lafComboBox.addActionListener(e -> {
-            String selected = (String) lafComboBox.getSelectedItem();
-            System.out.println("Switching to Look and Feel: " + selected);
-            switchLookAndFeel(selected);
-        });
         
         panel.add(label);
         panel.add(lafComboBox);
@@ -329,43 +316,6 @@ public class CLAFDemo extends JFrame {
         return panel;
     }
     
-    private void switchLookAndFeel(String lafName) {
-        try {
-            switch (lafName) {
-                case "Food":
-                    UIManager.setLookAndFeel(new FoodLookAndFeel());
-                    break;
-                case "Medical":
-                    UIManager.setLookAndFeel(new MedicalLookAndFeel());
-                    break;
-                case "Financial":
-                    UIManager.setLookAndFeel(new FinancialLookAndFeel());
-                    break;
-                case "Industrial":
-                    UIManager.setLookAndFeel(new IndustrialLookAndFeel());
-                    break;
-                case "System Default":
-                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-                    break;
-            }
-            
-            // Update all components
-            SwingUtilities.updateComponentTreeUI(this);
-            pack();
-            
-            // Update the combo box selection if called from menu
-            if (!lafComboBox.getSelectedItem().equals(lafName)) {
-                lafComboBox.setSelectedItem(lafName);
-            }
-            
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, 
-                "Failed to set Look and Feel: " + e.getMessage(), 
-                "Error", 
-                JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
-        }
-    }
     
     private void showAboutDialog(ActionEvent e) {
         String message = """
@@ -385,8 +335,23 @@ public class CLAFDemo extends JFrame {
         System.setProperty("awt.useSystemAAFontSettings", "on");
         System.setProperty("swing.aatext", "true");
         
+        // Check if theme was provided as command line argument
+        String selectedTheme = null;
+        if (args.length > 0) {
+            selectedTheme = args[0].toLowerCase();
+        } else {
+            // Show CLI menu for theme selection
+            selectedTheme = showThemeSelectionMenu();
+        }
+        
+        // Validate and set the selected theme
+        final String theme = validateTheme(selectedTheme);
+        
         SwingUtilities.invokeLater(() -> {
-            try {                
+            try {
+                // Set the initial Look and Feel based on selection
+                setInitialTheme(theme);
+                
                 CLAFDemo demo = new CLAFDemo();
                 demo.setVisible(true);
                 
@@ -399,5 +364,91 @@ public class CLAFDemo extends JFrame {
             }
         });
     }
+    
+    private static String showThemeSelectionMenu() {
+        Scanner scanner = new Scanner(System.in);
+        String theme = null;
+        
+        System.out.println("\n" + "=".repeat(50));
+        System.out.println("       CLAF Demo - Theme Selection");
+        System.out.println("=".repeat(50));
+        System.out.println("Available themes:");
+        System.out.println("  1. Food      - Warm, organic colors");
+        System.out.println("  2. Medical   - Clean, healthcare colors"); 
+        System.out.println("  3. Financial - Professional, trustworthy colors");
+        System.out.println("  4. Industrial- Strong, metallic colors");
+        System.out.println("  5. System    - System default Look and Feel");
+        System.out.println("=".repeat(50));
+        
+        while (theme == null) {
+            System.out.print("Select a theme (1-5 or name): ");
+            String input = scanner.nextLine().trim().toLowerCase();
+            
+            switch (input) {
+                case "1":
+                case "food":
+                    theme = "food";
+                    break;
+                case "2":
+                case "medical":
+                    theme = "medical";
+                    break;
+                case "3":
+                case "financial":
+                    theme = "financial";
+                    break;
+                case "4":
+                case "industrial":
+                    theme = "industrial";
+                    break;
+                case "5":
+                case "system":
+                    theme = "system";
+                    break;
+                default:
+                    System.out.println("Invalid selection. Please choose 1-5 or enter theme name.");
+            }
+        }
+        
+        scanner.close();
+        return theme;
+    }
+    
+    private static String validateTheme(String theme) {
+        if (theme == null) return "food"; // default
+        
+        switch (theme.toLowerCase()) {
+            case "food":
+            case "medical":
+            case "financial":
+            case "industrial":
+            case "system":
+                return theme.toLowerCase();
+            default:
+                System.out.println("Unknown theme '" + theme + "', using Food theme as default.");
+                return "food";
+        }
+    }
+    
+    private static void setInitialTheme(String theme) throws Exception {
+        switch (theme) {
+            case "food":
+                UIManager.setLookAndFeel(new FoodLookAndFeel());
+                break;
+            case "medical":
+                UIManager.setLookAndFeel(new MedicalLookAndFeel());
+                break;
+            case "financial":
+                UIManager.setLookAndFeel(new FinancialLookAndFeel());
+                break;
+            case "industrial":
+                UIManager.setLookAndFeel(new IndustrialLookAndFeel());
+                break;
+            case "system":
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                break;
+        }
+    }
+    
     
 }
