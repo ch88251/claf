@@ -7,13 +7,16 @@ A modern Java Swing Look and Feel library
 CLAF provides custom Look and Feel implementations for Java Swing applications, offering several themes:
 
 **Healthcare Theme**
-![Medical Theme](images/medical-theme.png "Medical Theme")
+
+<img style="display: block; margin: auto;" src="images/medical-theme.png"/>
 
 **Financial Theme**
-![Financial Theme](images/financial-theme.png "Financial Theme")
+
+<img style="display: block; margin: auto;" src="images/financial-theme.png"/>
 
 **Industrial Components**
-![Industrial Theme](images/industrial-theme.png "Industrial Theme")
+
+<img style="display: block; margin: auto;" src="images/industrial-theme.png"/>
 
 ## Features
 
