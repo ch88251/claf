@@ -33,10 +33,25 @@ cd claf
 
 ## Usage
 
-### Quick Demo
+### Run Demo
 
 ./mvnw exec:java
 ```
+
+### Available Themes
+
+<table>
+  <tr>
+    <td><b>Healthcare Theme</b></td>
+    <td><b>Financial Theme</b></td>
+    <td><b>Industrial Theme</b></td>
+  </tr>
+  <tr>
+    <td><img style="display: block; margin: auto;" src="images/medical-theme.png"/></td>
+    <td><img style="display: block; margin: auto;" src="images/financial-theme.png"/></td>
+    <td><img style="display: block; margin: auto;" src="images/industrial-theme.png"/></td>
+  </tr>
+</table>
 
 ### Basic Usage
 
@@ -76,39 +91,3 @@ props.setProperty("textAntiAliasing", "on");
 
 IndustrialLookAndFeel.setTheme(props);
 ```
-
-### Available Themes
-
-<table>
-  <tr>
-    <td><b>Healthcare Theme</b></td>
-    <td><b>Financial Theme</b></td>
-    <td><b>Industrial Theme</b></td>
-  </tr>
-  <tr>
-    <td><img style="display: block; margin: auto;" src="images/medical-theme.png"/></td>
-    <td><img style="display: block; margin: auto;" src="images/financial-theme.png"/></td>
-    <td><img style="display: block; margin: auto;" src="images/industrial-theme.png"/></td>
-  </tr>
-</table>
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Make your changes
-4. Add tests for new functionality
-5. Commit your changes (`git commit -m 'Add amazing feature'`)
-6. Push to the branch (`git push origin feature/amazing-feature`)
-7. Open a Pull Request
-
-## Testing
-
-Run tests with:
-
-```bash
-./mvnw test
-```
-
-## License
-
