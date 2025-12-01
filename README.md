@@ -35,6 +35,7 @@ cd claf
 
 ### Run Demo
 
+```
 ./mvnw exec:java
 ```
 
